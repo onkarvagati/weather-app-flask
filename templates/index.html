@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body.weather {
+            height: 100vh;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            color: #fff;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #ffffff88;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .weather-info {
+            margin-top: 20px;
+        }
+
+        .weather-info img {
+            width: 80px;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: #ffdddd;
+            background-color: rgba(255, 0, 0, 0.4);
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        /* Dynamic Weather Backgrounds */
+        body.clear {
+            background-image: url('https://images.unsplash.com/photo-1501973801540-537f08ccae7d?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        body.clouds {
+            background-image: url('https://images.unsplash.com/photo-1606788075761-57809b2c3a43?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        body.rain {
+            background-image: url('https://images.unsplash.com/photo-1507738978512-35798112892c?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        body.snow {
+            background-image: url('https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        body.thunderstorm {
+            background-image: url('https://images.unsplash.com/photo-1604084430549-f1a6eb47f85b?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        body.mist {
+            background-image: url('https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1920&q=80');
+        }
+        .weather-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 350px;
+            margin: 30px auto;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .weather-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .weather-card img {
+            width: 100px;
+        }
+
+        .weather-card h1 {
+            font-size: 50px;
+            margin: 10px 0;
+        }
+
+        .details p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+    </style>
+</head>
+<body class="weather {{ weather.main | lower if weather else '' }}">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="card">
+            <h1>Weather App 🌤️</h1>
+            <form method="POST">
+                <input type="text" name="city" placeholder="Enter city (e.g Delhi)" required>
+                <br>
+                <button type="submit">Get Weather</button>
+            </form>
+              {% if weather %}
+            <div class="weather-card">
+                <h2>{{ weather.city }}, {{ weather.country }}</h2>
+                <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather Icon">
+                <h1>{{ weather.temperature }}°C</h1>
+                <p>{{ weather.description }}</p>
+
+                <div class="details">
+                    <p><strong>Feels Like:</strong> {{ weather.feels_like }}°C</p>
+                    <p><strong>Humidity:</strong> {{ weather.humidity }}%</p>
+                    <p><strong>Wind:</strong> {{ weather.wind }} m/s</p>
+                    <p><strong>Sunrise:</strong> {{ weather.sunrise }}</p>
+                    <p><strong>Sunset:</strong> {{ weather.sunset }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</body>
+</html>
